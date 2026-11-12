@@ -1263,6 +1263,10 @@
   /* -------------------------------------------------------
      页面关闭特效前顺手处理一下
      ------------------------------------------------------- */
+  window.addEventListener("lettervoice-bgm-pause", () => {
+    if (sound.enabled) sound.disable();
+  });
+
   window.addEventListener("pagehide", () => {
     sound.stopMusicImmediately();
   });

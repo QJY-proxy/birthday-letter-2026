@@ -11145,6 +11145,170 @@ body.is-locked {
   color: var(--rose);
 }
 
+/* Letter voice note */
+.letter-voice {
+  display: grid;
+  gap: 9px;
+  margin: 0 0 20px;
+  padding: 13px 15px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background:
+    radial-gradient(rgba(174, 132, 99, 0.11) 0.8px, transparent 0.8px) 0 0 / 12px 12px,
+    #fff8e8;
+  box-shadow: 0 5px 0 rgba(85, 52, 63, 0.05);
+}
+
+.letter-voice-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.letter-voice-kicker {
+  color: var(--rose);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+}
+
+.letter-voice-title {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.letter-voice-player {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.letter-voice-toggle {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  padding: 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--pink);
+  color: #fffaf2;
+  font-family: var(--body);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(85, 52, 63, 0.12);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.letter-voice-toggle:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(85, 52, 63, 0.12);
+}
+
+.letter-voice-toggle:focus-visible {
+  outline: 3px solid rgba(217, 85, 117, 0.3);
+  outline-offset: 2px;
+}
+
+.letter-voice-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.letter-voice-seek {
+  --voice-progress: 0%;
+  display: block;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.letter-voice-seek::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--rose) 0 var(--voice-progress), #f1d8df var(--voice-progress) 100%);
+}
+
+.letter-voice-seek::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  margin-top: -5px;
+  border: 2px solid var(--rose);
+  border-radius: 50%;
+  background: #fffaf2;
+  box-shadow: 0 1px 3px rgba(85, 52, 63, 0.2);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.letter-voice-seek::-moz-range-track {
+  height: 5px;
+  border-radius: 999px;
+  background: #f1d8df;
+}
+
+.letter-voice-seek::-moz-range-progress {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--rose);
+}
+
+.letter-voice-seek::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--rose);
+  border-radius: 50%;
+  background: #fffaf2;
+}
+
+.letter-voice-seek:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.letter-voice-time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1px;
+  color: var(--ink-faint);
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
+.letter-voice audio {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .letter-voice {
+    margin-bottom: 16px;
+    padding: 11px 12px 10px;
+  }
+
+  .letter-voice-title {
+    font-size: 12px;
+  }
+
+  .letter-voice-toggle {
+    width: 35px;
+    height: 35px;
+    font-size: 11px;
+  }
+}
+
 /* Keep the Jellycat-style cream bunny in the support team alongside her photo. */
 @media (min-width: 901px) {
   .cuties-stage {

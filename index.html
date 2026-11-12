@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#fff8ef">
-  <link rel="manifest" href="manifest.webmanifest?v=1">
+  <link rel="manifest" href="manifest.webmanifest?v=2">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="小刘">
   <meta name="description" content="写给最最最喜欢的小刘：一份跨越山海的生日小惊喜。">
   <title>小刘，生日快乐 ♡</title>
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body class="is-intro-open is-locked">
 
@@ -1574,6 +1574,22 @@
         <p class="letter-date">ON YOUR BIRTHDAY · WITH ALL MY LOVE</p>
         <span class="letter-postmark" aria-hidden="true">LOVE<br>POST</span>
       </header>
+      <div class="letter-voice" aria-label="信里的语音">
+        <div class="letter-voice-head">
+          <span class="letter-voice-kicker">A VOICE FOR YOU</span>
+          <span class="letter-voice-title">点开这封信，听我慢慢说</span>
+        </div>
+        <div class="letter-voice-player">
+          <button class="letter-voice-toggle" id="letterVoiceToggle" type="button" aria-label="播放语音">
+            <span id="letterVoiceGlyph" aria-hidden="true">▶</span>
+          </button>
+          <div class="letter-voice-main">
+            <input class="letter-voice-seek" id="letterVoiceSeek" type="range" min="0" max="0" value="0" step="0.1" aria-label="语音播放进度" disabled>
+            <div class="letter-voice-time"><span id="letterVoiceCurrent">0:00</span><span id="letterVoiceDuration">0:00</span></div>
+          </div>
+        </div>
+        <audio id="letterVoice" src="assets/audio/letter-voice.m4a?v=1" preload="metadata" playsinline></audio>
+      </div>
       <div class="letter-body">
         <p class="letter-salutation">亲爱的小刘：</p>
         <p class="letter-opening">生日快乐呀小刘！</p>
@@ -1619,7 +1635,7 @@
     <span class="hug-heart-float hug-heart-float--three">♡</span>
   </div>
 
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
   <script>
     (() => {
       const gate = document.getElementById("passwordGate");
@@ -1709,9 +1725,91 @@
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("sw.js?v=1").catch(() => {});
+          navigator.serviceWorker.register("sw.js?v=2").catch(() => {});
         });
       }
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const dialog = document.getElementById("letterDialog");
+      const openBtn = document.getElementById("openLetterBtn");
+      const audio = document.getElementById("letterVoice");
+      const toggle = document.getElementById("letterVoiceToggle");
+      const glyph = document.getElementById("letterVoiceGlyph");
+      const seek = document.getElementById("letterVoiceSeek");
+      const current = document.getElementById("letterVoiceCurrent");
+      const durationLabel = document.getElementById("letterVoiceDuration");
+      if (!dialog || !openBtn || !audio || !toggle || !seek) return;
+
+      const fmt = (seconds) => {
+        if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+        const whole = Math.floor(seconds);
+        return Math.floor(whole / 60) + ":" + String(whole % 60).padStart(2, "0");
+      };
+
+      const paint = () => {
+        const dur = Number.isFinite(audio.duration) ? audio.duration : 0;
+        if (dur > 0) {
+          seek.max = String(dur);
+          seek.value = String(Math.min(audio.currentTime, dur));
+          seek.style.setProperty("--voice-progress", (audio.currentTime / dur) * 100 + "%");
+          durationLabel.textContent = fmt(dur);
+        }
+        current.textContent = fmt(audio.currentTime);
+        const playing = !audio.paused && !audio.ended;
+        glyph.textContent = playing ? "❚❚" : "▶";
+        toggle.setAttribute("aria-label", playing ? "暂停语音" : "播放语音");
+      };
+
+      const playVoice = () => {
+        audio.currentTime = 0;
+        paint();
+        const promise = audio.play();
+        if (promise && typeof promise.catch === "function") promise.catch(() => paint());
+      };
+
+      audio.addEventListener("loadedmetadata", () => {
+        seek.disabled = !Number.isFinite(audio.duration) || audio.duration <= 0;
+        paint();
+      });
+      audio.addEventListener("timeupdate", paint);
+      audio.addEventListener("play", () => {
+        paint();
+        window.dispatchEvent(new Event("lettervoice-bgm-pause"));
+      });
+      audio.addEventListener("pause", paint);
+      audio.addEventListener("ended", () => {
+        audio.currentTime = 0;
+        paint();
+      });
+
+      toggle.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play().catch(() => paint());
+        } else {
+          audio.pause();
+        }
+      });
+
+      seek.addEventListener("input", () => {
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          audio.currentTime = Number(seek.value);
+          paint();
+        }
+      });
+
+      openBtn.addEventListener("click", playVoice);
+      if (audio.readyState >= 1 && Number.isFinite(audio.duration)) {
+        seek.disabled = false;
+        paint();
+      }
+      dialog.addEventListener("close", () => {
+        audio.pause();
+        audio.currentTime = 0;
+        paint();
+      });
     })();
   </script>
 
