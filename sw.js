@@ -1,9 +1,9 @@
-const CACHE = "xiaoliu-birthday-v12";
+const CACHE = "xiaoliu-birthday-v13";
 const CORE = [
-  "./?v=12",
+  "./?v=13",
   "./styles.css?v=10",
-  "./app.js?v=10",
-  "./manifest.webmanifest?v=2",
+  "./app.js?v=11",
+  "./manifest.webmanifest?v=3",
   "./assets/icons/icon-192.png?v=1",
   "./assets/icons/icon-512.png?v=1",
   "./assets/icons/icon-maskable-512.png?v=1",
@@ -11,6 +11,7 @@ const CORE = [
   "./assets/fonts/baloo-2.woff2",
   "./assets/fonts/zcool-kuaile.woff2",
   "./assets/audio/letter-voice.m4a?v=1",
+  "./assets/audio/xiangjianni-vocal.mp3",
 ];
 
 self.addEventListener("install", (event) => {
@@ -22,9 +23,7 @@ self.addEventListener("install", (event) => {
           try {
             const response = await fetch(url, { cache: "reload" });
             if (response.ok) await cache.put(url, response);
-          } catch (error) {
-            // Optional assets should not block the app shell.
-          }
+          } catch (error) {}
         })
       );
       await self.skipWaiting();
@@ -58,7 +57,7 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(async () => {
           return (
-            (await caches.match("./?v=12")) ||
+            (await caches.match("./?v=13")) ||
             (await caches.match(request)) ||
             new Response("这个页面需要联网加载一次。", { headers: { "Content-Type": "text/plain;charset=utf-8" } })
           );

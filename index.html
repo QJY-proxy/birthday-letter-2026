@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#fff8ef">
-  <link rel="manifest" href="manifest.webmanifest?v=2">
+  <link rel="manifest" href="manifest.webmanifest?v=3">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1635,7 +1635,7 @@
     <span class="hug-heart-float hug-heart-float--three">♡</span>
   </div>
 
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
   <script>
     (() => {
       const gate = document.getElementById("passwordGate");
@@ -1725,7 +1725,7 @@
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("sw.js?v=2").catch(() => {});
+          navigator.serviceWorker.register("sw.js?v=3").catch(() => {});
         });
       }
     })();
@@ -1767,7 +1767,13 @@
         audio.currentTime = 0;
         paint();
         const promise = audio.play();
-        if (promise && typeof promise.catch === "function") promise.catch(() => paint());
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(() => {
+            paint();
+            const title = document.querySelector(".letter-voice-title");
+            if (title) title.textContent = "点一下播放键，听这封信";
+          });
+        }
       };
 
       audio.addEventListener("loadedmetadata", () => {
@@ -1776,6 +1782,8 @@
       });
       audio.addEventListener("timeupdate", paint);
       audio.addEventListener("play", () => {
+        const title = document.querySelector(".letter-voice-title");
+        if (title) title.textContent = "正在播放 · 可以拖动进度";
         paint();
         window.dispatchEvent(new Event("lettervoice-bgm-pause"));
       });
@@ -1809,6 +1817,7 @@
         audio.pause();
         audio.currentTime = 0;
         paint();
+        window.dispatchEvent(new Event("lettervoice-bgm-resume"));
       });
     })();
   </script>

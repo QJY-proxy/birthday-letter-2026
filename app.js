@@ -427,6 +427,9 @@
       this.audioPauseTimer = null;
       this.fadeMusicTo(this.audioTargetVolume, 2000);
       if (this.audio.paused) {
+        // On iOS, an audio element whose source was assigned with
+        // preload="none" may need an explicit load() inside the gesture.
+        if (this.audio.readyState === 0) this.audio.load();
         const playPromise = this.audio.play();
         if (playPromise && typeof playPromise.catch === "function") {
           playPromise.catch(() => {
@@ -1263,8 +1266,17 @@
   /* -------------------------------------------------------
      页面关闭特效前顺手处理一下
      ------------------------------------------------------- */
+  let bgmWasPlayingBeforeLetter = false;
+
   window.addEventListener("lettervoice-bgm-pause", () => {
+    bgmWasPlayingBeforeLetter = Boolean(sound.enabled && sound.audio && !sound.audio.paused);
     if (sound.enabled) sound.disable();
+  });
+
+  window.addEventListener("lettervoice-bgm-resume", () => {
+    if (!bgmWasPlayingBeforeLetter) return;
+    bgmWasPlayingBeforeLetter = false;
+    sound.enable().catch(() => {});
   });
 
   window.addEventListener("pagehide", () => {
