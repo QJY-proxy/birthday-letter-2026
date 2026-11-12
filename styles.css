@@ -11129,6 +11129,22 @@ body.is-locked {
   background: #f7e7e1;
 }
 
+.install-app {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.install-app:hover {
+  color: var(--rose);
+}
+
 /* Keep the Jellycat-style cream bunny in the support team alongside her photo. */
 @media (min-width: 901px) {
   .cuties-stage {
