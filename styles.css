@@ -10527,6 +10527,507 @@ body.is-locked {
   }
 }
 
+/* =========================================================
+   小刘贴纸铺
+   ========================================================= */
+.stickershop {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 13% 18%, rgba(255, 219, 231, 0.7), transparent 25%),
+    radial-gradient(circle at 88% 12%, rgba(206, 234, 245, 0.72), transparent 24%),
+    radial-gradient(circle at 82% 90%, rgba(255, 232, 164, 0.5), transparent 22%),
+    linear-gradient(180deg, #fff8ef, #f5f0f8 50%, #fff8ef);
+}
+
+.stickershop-deco {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stickershop-ghost {
+  position: absolute;
+  top: 2%;
+  left: -3%;
+  color: rgba(156, 142, 168, 0.12);
+  font-family: var(--body);
+  font-size: clamp(100px, 18vw, 250px);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+  transform: rotate(-4deg);
+}
+
+.stickershop-spark {
+  position: absolute;
+  font-family: var(--display);
+  opacity: 0.55;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+.stickershop-spark--one {
+  top: 12%;
+  right: 7%;
+  color: var(--rose);
+  font-size: 22px;
+}
+
+.stickershop-spark--two {
+  left: 7%;
+  bottom: 17%;
+  color: var(--butter-deep);
+  font-size: 22px;
+  animation-delay: -1.4s;
+}
+
+.stickershop-star {
+  position: absolute;
+  right: 8%;
+  bottom: 8%;
+  color: rgba(213, 102, 128, 0.55);
+  font-size: 25px;
+  transform: rotate(12deg);
+}
+
+.sticker-board {
+  position: relative;
+  z-index: 2;
+  width: min(1160px, 100%);
+  margin: 0 auto;
+  padding: clamp(22px, 3.2vw, 36px);
+  border: 2px solid var(--ink);
+  border-radius: 30px;
+  background:
+    radial-gradient(rgba(164, 132, 132, 0.13) 0.8px, transparent 0.8px) 0 0 / 14px 14px,
+    #fffcf5;
+  box-shadow: 0 12px 0 rgba(85, 52, 63, 0.05), 0 30px 65px rgba(112, 79, 89, 0.14);
+  transform: rotate(-0.25deg);
+}
+
+.sticker-board::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 11px;
+  border: 1px dashed rgba(155, 118, 115, 0.24);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.sticker-tape--one {
+  top: -13px;
+  left: 8%;
+  width: 125px;
+  transform: rotate(-4deg);
+}
+
+.sticker-tape--two {
+  right: 7%;
+  bottom: -12px;
+  width: 110px;
+  transform: rotate(3deg);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.34) 0 6px, transparent 6px 12px),
+    rgba(197, 229, 242, 0.8);
+}
+
+.sticker-board-stamp {
+  position: absolute;
+  z-index: 5;
+  top: -18px;
+  right: 5%;
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  border: 1.5px dashed var(--rose);
+  border-radius: 50%;
+  background: rgba(255, 249, 237, 0.94);
+  color: rgba(190, 80, 106, 0.82);
+  font-family: var(--display);
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: center;
+  transform: rotate(10deg);
+}
+
+.sticker-bubble {
+  position: relative;
+  z-index: 3;
+  width: min(650px, 100%);
+  margin: 0 auto 25px;
+  padding: 16px 24px 17px;
+  border: 1.5px solid var(--ink);
+  border-radius: 15px;
+  background: #fffdf8;
+  text-align: center;
+  box-shadow: 0 5px 0 rgba(85, 52, 63, 0.05);
+}
+
+.sticker-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border-right: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  background: #fffdf8;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.sticker-bubble-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--rose);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.sticker-bubble p {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(14px, 2vw, 19px);
+  line-height: 1.6;
+}
+
+.sticker-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px 17px;
+  padding: 6px 7px 14px;
+}
+
+.sticker-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  padding: 6px 4px 3px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.24s ease;
+}
+
+.sticker-item:nth-child(3n + 1) {
+  transform: rotate(-1.4deg);
+}
+
+.sticker-item:nth-child(3n + 2) {
+  transform: rotate(1.2deg);
+}
+
+.sticker-item:nth-child(3n) {
+  transform: rotate(-0.4deg);
+}
+
+.sticker-item img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: contain;
+  filter: drop-shadow(0 9px 8px rgba(103, 69, 81, 0.15));
+  transition: transform 0.24s ease, filter 0.24s ease;
+  pointer-events: none;
+}
+
+.sticker-item:hover {
+  transform: translateY(-5px) rotate(0);
+}
+
+.sticker-item:hover img {
+  transform: scale(1.035) rotate(-1deg);
+  filter: drop-shadow(0 13px 11px rgba(103, 69, 81, 0.2));
+}
+
+.sticker-item.is-popping img {
+  animation: stickerPop 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+.sticker-label {
+  display: inline-block;
+  max-width: 100%;
+  margin-top: 1px;
+  padding: 3px 9px;
+  border: 1px solid rgba(91, 59, 67, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 252, 244, 0.88);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 9px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.sticker-got {
+  position: absolute;
+  z-index: 4;
+  top: 4px;
+  right: 5px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--pink);
+  color: #fffaf2;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0;
+  transform: scale(0.4) rotate(-20deg);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sticker-item.is-collected .sticker-got {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+.sticker-item.is-collected .sticker-label {
+  border-color: rgba(201, 99, 122, 0.5);
+  color: var(--rose);
+}
+
+.sticker-progress {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 2px;
+  color: var(--ink-faint);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.sticker-progress strong {
+  color: var(--rose);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.sticker-secret {
+  position: relative;
+  z-index: 2;
+  min-height: 23px;
+  margin: 8px auto 0;
+  color: var(--ink-faint);
+  font-family: var(--display);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.sticker-secret.is-revealed {
+  color: var(--rose);
+  font-size: 15px;
+  animation: stickerSecretIn 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.sticker-pop-heart {
+  position: absolute;
+  z-index: 6;
+  top: 40%;
+  left: 50%;
+  color: var(--rose);
+  font-family: var(--display);
+  font-size: 22px;
+  pointer-events: none;
+  animation: stickerHeartUp 0.72s ease-out forwards;
+}
+
+@keyframes stickerPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.09) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+
+@keyframes stickerHeartUp {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(0.5) rotate(-10deg); }
+  100% { opacity: 0; transform: translate(-50%, -70px) scale(1.3) rotate(12deg); }
+}
+
+@keyframes stickerSecretIn {
+  0% { opacity: 0; transform: translateY(6px) scale(0.94); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 900px) {
+  .sticker-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px 12px;
+  }
+
+  .sticker-item img {
+    height: 165px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sticker-board {
+    padding: 18px 13px 16px;
+    border-radius: 21px;
+  }
+
+  .sticker-board::before {
+    inset: 7px;
+    border-radius: 15px;
+  }
+
+  .sticker-board-stamp {
+    top: -14px;
+    right: 4%;
+    width: 56px;
+    height: 56px;
+    font-size: 8px;
+  }
+
+  .sticker-tape--one {
+    top: -11px;
+    left: 5%;
+    width: 90px;
+  }
+
+  .sticker-tape--two {
+    right: 5%;
+    bottom: -10px;
+    width: 86px;
+  }
+
+  .sticker-bubble {
+    margin-bottom: 19px;
+    padding: 12px 13px 13px;
+  }
+
+  .sticker-bubble p {
+    font-size: 13px;
+  }
+
+  .sticker-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 6px;
+    padding: 5px 2px 10px;
+  }
+
+  .sticker-item {
+    padding: 2px 2px 2px;
+  }
+
+  .sticker-item img {
+    height: 135px;
+  }
+
+  .sticker-label {
+    padding: 2px 7px;
+    font-size: 8px;
+  }
+
+  .sticker-got {
+    top: 1px;
+    right: 1px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .sticker-progress {
+    gap: 8px;
+    font-size: 9px;
+  }
+
+  .sticker-progress strong {
+    font-size: 13px;
+  }
+
+  .sticker-secret {
+    font-size: 9px;
+  }
+
+  .sticker-secret.is-revealed {
+    font-size: 12px;
+  }
+
+  .stickershop-ghost {
+    top: 2%;
+    left: -15%;
+    font-size: 100px;
+  }
+
+  .stickershop-spark--one {
+    top: 7%;
+    right: 4%;
+  }
+}
+
+/* 小刘照片贴纸在页面其它角落的客串 */
+.hero-photos .photo-bloom,
+.envelope-stage {
+  position: relative;
+}
+
+.page-sticker {
+  position: absolute;
+  z-index: 6;
+  display: block;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 9px 8px rgba(105, 68, 80, 0.18));
+}
+
+.page-sticker--hero {
+  right: 4px;
+  bottom: -26px;
+  width: clamp(68px, 7vw, 92px);
+  transform: rotate(7deg);
+}
+
+.page-sticker--letter {
+  right: -22px;
+  bottom: 17%;
+  width: clamp(70px, 7vw, 98px);
+  transform: rotate(-9deg);
+}
+
+@media (max-width: 900px) {
+  .page-sticker--hero {
+    right: -2px;
+    bottom: -15px;
+    width: 62px;
+  }
+
+  .page-sticker--letter {
+    right: -9px;
+    bottom: 12%;
+    width: 68px;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-sticker--hero,
+  .page-sticker--letter {
+    display: none;
+  }
+}
+
 /* Keep the Jellycat-style cream bunny in the support team alongside her photo. */
 @media (min-width: 901px) {
   .cuties-stage {

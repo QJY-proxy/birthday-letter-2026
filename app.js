@@ -758,6 +758,7 @@
     ".memory",
     ".beijing-board",
     ".life-board",
+    ".sticker-board",
     ".coupon-board",
     ".cake-stage",
     ".blow-control",
