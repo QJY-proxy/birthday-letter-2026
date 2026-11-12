@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#fff8ef">
-  <link rel="manifest" href="manifest.webmanifest?v=6">
+  <link rel="manifest" href="manifest.webmanifest?v=7">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,8 +13,140 @@
   <meta name="description" content="写给最最最喜欢的小刘：一份跨越山海的生日小惊喜。">
   <title>小刘，生日快乐 ♡</title>
   <link rel="stylesheet" href="styles.css?v=10">
+  <style id="bootStyles">
+    body.is-booting { overflow: hidden; }
+    .boot-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(rgba(174, 132, 99, 0.12) 0.8px, transparent 0.8px) 0 0 / 16px 16px,
+        #fff8ef;
+      color: #5b3b43;
+      font-family: "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
+      transition: opacity 0.55s ease, visibility 0.55s ease;
+    }
+    .boot-screen.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+    .boot-card {
+      width: min(92vw, 430px);
+      padding: 28px 26px 23px;
+      border: 1.5px dashed #5b3b43;
+      border-radius: 24px;
+      background: #fffdf7;
+      box-shadow: 8px 10px 0 rgba(85, 52, 63, 0.07);
+      text-align: center;
+    }
+    .boot-icon {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 14px;
+      overflow: hidden;
+      border: 4px solid #fff;
+      border-radius: 50%;
+      background: #f5c9d5;
+      box-shadow: 0 0 0 2px #d95575, 0 7px 0 rgba(85, 52, 63, 0.1);
+      transform: rotate(-2deg);
+    }
+    .boot-icon img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .boot-kicker {
+      margin: 0 0 7px;
+      color: #d95575;
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      line-height: 1.5;
+    }
+    .boot-title {
+      margin: 0;
+      color: #5b3b43;
+      font-size: clamp(24px, 6vw, 30px);
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: 0.03em;
+    }
+    .boot-bar {
+      height: 9px;
+      margin: 22px 0 9px;
+      overflow: hidden;
+      border: 1px solid #5b3b43;
+      border-radius: 999px;
+      background: #f7dce4;
+    }
+    .boot-bar span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: #d95575;
+      transition: width 0.3s ease;
+    }
+    .boot-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      color: #8e6974;
+      font-family: "PingFang SC", sans-serif;
+      font-size: 10px;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .boot-meta strong { color: #d95575; font-size: 12px; }
+    .boot-note {
+      margin: 17px 0 0;
+      color: #9b7a83;
+      font-family: "PingFang SC", sans-serif;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+    .boot-error {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed #dfb8c1;
+      color: #8e4b5e;
+      font-family: "PingFang SC", sans-serif;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .boot-error[hidden] { display: none; }
+    .boot-error p { margin: 0 0 9px; }
+    .boot-retry {
+      padding: 8px 18px;
+      border: 1.5px solid #5b3b43;
+      border-radius: 999px;
+      background: #ffd6e2;
+      color: #5b3b43;
+      font: inherit;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(85, 52, 63, 0.12);
+    }
+    .boot-retry:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(85, 52, 63, 0.12); }
+    @media (max-width: 420px) {
+      .boot-card { padding: 22px 18px 19px; }
+      .boot-icon { width: 88px; height: 88px; }
+    }
+  </style>
 </head>
-<body class="is-intro-open is-locked">
+<body class="is-intro-open is-locked is-booting">
+<div class="boot-screen" id="bootScreen" role="status" aria-live="polite">
+    <div class="boot-card">
+      <div class="boot-icon"><img src="assets/icons/icon-192.png" alt="" width="104" height="104"></div>
+      <p class="boot-kicker">A LITTLE SURPRISE IS GETTING READY</p>
+      <h1 class="boot-title">正在把小刘的<br>生日惊喜装好…</h1>
+      <div class="boot-bar" id="bootBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="bootFill"></span></div>
+      <div class="boot-meta"><span id="bootStatus">正在准备照片和声音…</span><strong id="bootPercent">0%</strong></div>
+      <p class="boot-note" id="bootNote">照片和声音全部准备好后，才会打开这封信。</p>
+      <div class="boot-error" id="bootError" hidden>
+        <p id="bootErrorText">网络有点慢，有几个文件没有下载好。</p>
+        <button class="boot-retry" id="bootRetry" type="button">再试一次</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ===== 手绘图标库 / SVG SPRITE ===== -->
   <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1635,7 +1767,7 @@
     <span class="hug-heart-float hug-heart-float--three">♡</span>
   </div>
 
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
   <script>
     (() => {
       const gate = document.getElementById("passwordGate");
@@ -1725,7 +1857,7 @@
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("sw.js?v=6").catch(() => {});
+          navigator.serviceWorker.register("sw.js?v=7").catch(() => {});
         });
       }
     })();
@@ -1823,6 +1955,179 @@
         paint();
         window.dispatchEvent(new Event("lettervoice-bgm-restore"));
       });
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const boot = document.getElementById("bootScreen");
+      if (!boot) return;
+      const fill = document.getElementById("bootFill");
+      const bar = document.getElementById("bootBar");
+      const percent = document.getElementById("bootPercent");
+      const status = document.getElementById("bootStatus");
+      const note = document.getElementById("bootNote");
+      const errorBox = document.getElementById("bootError");
+      const errorText = document.getElementById("bootErrorText");
+      const retry = document.getElementById("bootRetry");
+
+      if (retry) retry.addEventListener("click", () => window.location.reload());
+
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      async function fetchAsset(url, timeout) {
+        let lastError;
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), timeout);
+          try {
+            const response = await fetch(url, { signal: controller.signal });
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response;
+          } catch (error) {
+            lastError = error;
+            await sleep(350 * (attempt + 1));
+          } finally {
+            clearTimeout(timer);
+          }
+        }
+        throw lastError;
+      }
+
+      const photos = [...document.querySelectorAll("[data-src]")];
+      const photoGroups = new Map();
+      photos.forEach((element) => {
+        const url = element.dataset.src;
+        if (!url || url.startsWith("blob:") || url.startsWith("data:")) return;
+        if (!photoGroups.has(url)) photoGroups.set(url, []);
+        photoGroups.get(url).push(element);
+      });
+
+      const tasks = [];
+      tasks.push({ kind: "bgm", hard: true, label: "正在把《想见你》装进去…" });
+      tasks.push({ kind: "voice", hard: true, label: "正在把信里的声音装进去…" });
+
+      const totalPhotos = photoGroups.size;
+      let photoNumber = 0;
+      photoGroups.forEach((elements, url) => {
+        photoNumber += 1;
+        tasks.push({
+          kind: "photo",
+          hard: true,
+          url,
+          elements,
+          label: "正在下载照片 " + photoNumber + "/" + totalPhotos
+        });
+      });
+
+      const iconUrls = [
+        "assets/icons/icon-192.png",
+        "assets/icons/icon-512.png",
+        "assets/icons/icon-maskable-512.png",
+        "assets/icons/apple-touch-icon.png",
+        "assets/icons/favicon-32.png",
+        "manifest.webmanifest?v=7"
+      ];
+      iconUrls.forEach((url) => {
+        tasks.push({ kind: "icon", hard: false, url, label: "正在准备桌面快捷图标…" });
+      });
+
+      ["assets/fonts/baloo-2.woff2", "assets/fonts/zcool-kuaile.woff2"].forEach((url) => {
+        tasks.push({ kind: "font", hard: false, url, label: "正在准备字体…" });
+      });
+
+      const inlineImages = [...document.querySelectorAll('img[src^="data:image"]')];
+      inlineImages.forEach((img) => {
+        tasks.push({ kind: "decode", hard: false, img, label: "正在展开照片…" });
+      });
+
+      const total = tasks.length;
+      let completed = 0;
+      let nextTask = 0;
+      const hardErrors = [];
+
+      const updateProgress = () => {
+        const value = total ? Math.min(100, Math.round((completed / total) * 100)) : 100;
+        fill.style.width = value + "%";
+        percent.textContent = value + "%";
+        bar.setAttribute("aria-valuenow", String(value));
+      };
+
+      async function runTask(task) {
+        if (task.kind === "bgm") {
+          const response = await fetchAsset("assets/audio/bgm-xiangjianni-v2.mp3", 120000);
+          window.__birthdayBgmBlobUrl = URL.createObjectURL(await response.blob());
+          return;
+        }
+        if (task.kind === "voice") {
+          const response = await fetchAsset("assets/audio/letter-voice-v2.m4a", 120000);
+          const voice = document.getElementById("letterVoice");
+          if (voice) {
+            voice.src = URL.createObjectURL(await response.blob());
+            voice.load();
+          }
+          return;
+        }
+        if (task.kind === "photo") {
+          const response = await fetchAsset(task.url, 45000);
+          const objectUrl = URL.createObjectURL(await response.blob());
+          task.elements.forEach((element) => {
+            element.dataset.src = objectUrl;
+          });
+          return;
+        }
+        if (task.kind === "icon" || task.kind === "font") {
+          await fetchAsset(task.url, 30000);
+          return;
+        }
+        if (task.kind === "decode" && task.img) {
+          if (typeof task.img.decode === "function") {
+            try {
+              await Promise.race([
+                task.img.decode().catch(() => {}),
+                sleep(350)
+              ]);
+            } catch (error) {}
+          }
+        }
+      }
+
+      async function worker() {
+        while (nextTask < tasks.length) {
+          const task = tasks[nextTask];
+          nextTask += 1;
+          status.textContent = task.label;
+          try {
+            await runTask(task);
+          } catch (error) {
+            if (task.hard) hardErrors.push(task.label);
+          }
+          completed += 1;
+          updateProgress();
+        }
+      }
+
+      (async () => {
+        updateProgress();
+        await Promise.all([worker(), worker(), worker(), worker()]);
+        if (hardErrors.length) {
+          status.textContent = "还差一点点";
+          note.textContent = "照片和声音全部准备好后，才会打开这封信。";
+          errorText.textContent = "还有 " + hardErrors.length + " 个照片或声音没有下载好，网络好像开小差了。";
+          errorBox.hidden = false;
+          return;
+        }
+        status.textContent = "全部准备好啦 ♡";
+        note.textContent = "照片、声音和桌面图标都准备好了，正在打开…";
+        fill.style.width = "100%";
+        percent.textContent = "100%";
+        bar.setAttribute("aria-valuenow", "100");
+        window.__birthdayBooted = true;
+        await sleep(520);
+        boot.classList.add("is-done");
+        document.body.classList.remove("is-booting");
+        setTimeout(() => boot.remove(), 800);
+      })();
     })();
   </script>
 
