@@ -1,9 +1,9 @@
-const CACHE = "xiaoliu-birthday-v14";
+const CACHE = "xiaoliu-birthday-v15";
 const CORE = [
-  "./?v=14",
+  "./?v=15",
   "./styles.css?v=10",
-  "./app.js?v=12",
-  "./manifest.webmanifest?v=4",
+  "./app.js?v=13",
+  "./manifest.webmanifest?v=5",
   "./assets/icons/icon-192.png?v=1",
   "./assets/icons/icon-512.png?v=1",
   "./assets/icons/icon-maskable-512.png?v=1",
@@ -57,7 +57,7 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(async () => {
           return (
-            (await caches.match("./?v=14")) ||
+            (await caches.match("./?v=15")) ||
             (await caches.match(request)) ||
             new Response("这个页面需要联网加载一次。", { headers: { "Content-Type": "text/plain;charset=utf-8" } })
           );

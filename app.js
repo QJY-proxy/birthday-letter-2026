@@ -577,6 +577,17 @@
 
   const sound = new BirthdaySound();
 
+  // iOS/Safari needs a real gesture to start media. Start the BGM on the
+  // first user click, even if the visitor skips the gift button.
+  let ambientStartAttempted = false;
+  const startAmbientOnFirstGesture = () => {
+    if (ambientStartAttempted) return;
+    ambientStartAttempted = true;
+    if (!sound.enabled) sound.enable().catch(() => {});
+  };
+  document.addEventListener("click", startAmbientOnFirstGesture, { once: true });
+  document.addEventListener("keydown", startAmbientOnFirstGesture, { once: true });
+
   /* -------------------------------------------------------
      开场：拆礼物
      ------------------------------------------------------- */
