@@ -11007,6 +11007,57 @@ body.is-locked {
   transform: rotate(-9deg);
 }
 
+.about,
+.story,
+.photodiary,
+.lifediary,
+.coupons,
+.finale {
+  position: relative;
+}
+
+.page-sticker--about {
+  top: 13%;
+  right: 2.5%;
+  width: clamp(64px, 6.2vw, 92px);
+  transform: rotate(9deg);
+}
+
+.page-sticker--story {
+  top: 23%;
+  left: 2%;
+  width: clamp(58px, 5.4vw, 80px);
+  transform: rotate(-8deg);
+}
+
+.page-sticker--beijing {
+  top: 11%;
+  right: 2%;
+  width: clamp(60px, 6vw, 86px);
+  transform: rotate(7deg);
+}
+
+.page-sticker--life {
+  top: 9%;
+  left: 1.7%;
+  width: clamp(60px, 6vw, 86px);
+  transform: rotate(-10deg);
+}
+
+.page-sticker--coupons {
+  top: 8%;
+  right: 1.8%;
+  width: clamp(56px, 5.4vw, 78px);
+  transform: rotate(8deg);
+}
+
+.page-sticker--finale {
+  bottom: 13%;
+  left: 2%;
+  width: clamp(60px, 6vw, 86px);
+  transform: rotate(-7deg);
+}
+
 @media (max-width: 900px) {
   .page-sticker--hero {
     right: -2px;
@@ -11022,10 +11073,60 @@ body.is-locked {
 }
 
 @media (max-width: 680px) {
-  .page-sticker--hero,
+  .page-sticker--hero {
+    display: block;
+    right: 2px;
+    bottom: -8px;
+    width: 46px;
+  }
+
   .page-sticker--letter {
+    display: block;
+    right: -4px;
+    bottom: 8%;
+    width: 52px;
+  }
+
+  .page-sticker--about {
+    top: 88px;
+    right: 7px;
+    width: 47px;
+  }
+
+  .page-sticker--story {
     display: none;
   }
+
+  .page-sticker--beijing {
+    top: 88px;
+    right: 7px;
+    width: 46px;
+  }
+
+  .page-sticker--life {
+    top: 58px;
+    left: 5px;
+    width: 44px;
+  }
+
+  .page-sticker--coupons {
+    display: none;
+  }
+
+  .page-sticker--finale {
+    bottom: 76px;
+    left: 7px;
+    width: 48px;
+  }
+}
+
+/* Photo loading placeholders */
+.photo-img,
+.gallery-photo img,
+.life-postcard img,
+.finale-photo img,
+.cert-photo img {
+  background: #f7e7e1;
 }
 
 /* Keep the Jellycat-style cream bunny in the support team alongside her photo. */

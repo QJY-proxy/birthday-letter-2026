@@ -325,9 +325,10 @@
 
     createBackgroundAudio() {
       if (this.audio) return;
-      this.audio = new Audio(this.audioSource);
+      this.audio = new Audio();
       this.audio.loop = true;
-      this.audio.preload = "auto";
+      this.audio.preload = "none";
+      this.audio.src = this.audioSource;
       this.audio.volume = 0;
       this.audio.setAttribute("aria-hidden", "true");
       this.audio.style.display = "none";
@@ -758,7 +759,6 @@
     ".memory",
     ".beijing-board",
     ".life-board",
-    ".sticker-board",
     ".coupon-board",
     ".cake-stage",
     ".blow-control",
