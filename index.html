@@ -1675,6 +1675,11 @@
     (() => {
       let installPrompt = null;
       const installBtn = document.getElementById("installApp");
+      const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+      if (isIos && installBtn) {
+        installBtn.textContent = "Safari 分享 → 添加到主屏幕";
+      }
 
       window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
@@ -1691,7 +1696,9 @@
             } catch (error) {}
             installPrompt = null;
           } else {
-            installBtn.textContent = "用浏览器菜单 → 添加到桌面";
+            installBtn.textContent = isIos
+              ? "点 Safari 的分享按钮 → 添加到主屏幕"
+              : "用浏览器菜单 → 添加到桌面";
           }
         });
       }
