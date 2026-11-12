@@ -8,7 +8,7 @@
   <title>小刘，生日快乐 ♡</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="is-intro-open">
+<body class="is-intro-open is-locked">
 
   <!-- ===== 手绘图标库 / SVG SPRITE ===== -->
   <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -252,6 +252,39 @@
       </g>
     </symbol>
   </svg>
+
+  <!-- ===== 小刘专属密码门 ===== -->
+  <div class="password-gate" id="passwordGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <span class="gate-bg-heart gate-bg-heart--one" aria-hidden="true">♡</span>
+    <span class="gate-bg-heart gate-bg-heart--two" aria-hidden="true">✧</span>
+    <span class="gate-bg-heart gate-bg-heart--three" aria-hidden="true">✦</span>
+    <div class="gate-card" id="gateCard">
+      <span class="gate-tape" aria-hidden="true"></span>
+      <span class="gate-kicker">A PRIVATE LITTLE SURPRISE</span>
+      <span class="gate-lock" aria-hidden="true">
+        <svg viewBox="0 0 48 48">
+          <rect x="9" y="21" width="30" height="22" rx="8" fill="#fff8ee" stroke="#5b3b43" stroke-width="2.5"></rect>
+          <path d="M16 21v-6a8 8 0 0 1 16 0v6" fill="none" stroke="#5b3b43" stroke-width="2.5" stroke-linecap="round"></path>
+          <circle cx="24" cy="31" r="2.7" fill="#d95477"></circle>
+          <path d="M24 34v4" fill="none" stroke="#d95477" stroke-width="2.5" stroke-linecap="round"></path>
+        </svg>
+        <span class="gate-lock-spark">✦</span>
+      </span>
+      <p class="gate-to">TO · 小刘</p>
+      <h1 class="gate-title display" id="gateTitle">先对上暗号，<br>才准看这份小惊喜。</h1>
+      <p class="gate-copy">这是只属于我们的小页面。<br>输入六位数字，门就开啦。</p>
+      <form class="gate-form" id="gateForm">
+        <label class="gate-sr" for="gatePassword">六位数字暗号</label>
+        <input class="gate-input" id="gatePassword" name="password" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="输入六位暗号" required>
+        <button class="btn btn-primary gate-submit" type="submit">开门进去 <span aria-hidden="true">♡</span></button>
+        <p class="gate-error" id="gateError" aria-live="polite"></p>
+      </form>
+      <p class="gate-hint">进不去的话，去问多多要暗号。</p>
+      <span class="gate-doodle gate-doodle--one" aria-hidden="true">♡</span>
+      <span class="gate-doodle gate-doodle--two" aria-hidden="true">✧</span>
+      <span class="gate-stamp" aria-hidden="true">TOP<br>SECRET</span>
+    </div>
+  </div>
 
   <canvas class="fx-canvas" id="fxCanvas" aria-hidden="true"></canvas>
   <div class="page-progress" aria-hidden="true"><span id="progressBar"></span></div>
@@ -1571,6 +1604,55 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    (() => {
+      const gate = document.getElementById("passwordGate");
+      const form = document.getElementById("gateForm");
+      const input = document.getElementById("gatePassword");
+      const error = document.getElementById("gateError");
+      const card = document.getElementById("gateCard");
+      if (!gate || !form || !input || !error || !card) return;
+
+      const PASSWORD = "061118";
+      document.body.classList.add("is-locked");
+
+      const showError = (message) => {
+        error.textContent = message;
+        error.classList.add("is-visible");
+        card.classList.remove("is-wrong");
+        void card.offsetWidth;
+        card.classList.add("is-wrong");
+        window.setTimeout(() => card.classList.remove("is-wrong"), 520);
+      };
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (input.value.trim() === PASSWORD) {
+          error.textContent = "";
+          error.classList.remove("is-visible");
+          gate.classList.add("is-unlocked");
+          document.body.classList.remove("is-locked");
+          window.setTimeout(() => {
+            gate.style.display = "none";
+            gate.setAttribute("aria-hidden", "true");
+          }, 520);
+        } else {
+          input.value = "";
+          showError("暗号不对，再想想呀。");
+          input.focus();
+        }
+      });
+
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D/g, "").slice(0, 6);
+        error.classList.remove("is-visible");
+      });
+
+      if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        window.setTimeout(() => input.focus(), 450);
+      }
+    })();
+  </script>
 
 
 </body></html>
