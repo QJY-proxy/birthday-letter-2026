@@ -443,6 +443,17 @@
       }
     }
 
+    duckForLetter() {
+      if (!this.audio || !this.enabled) return;
+      this.fadeMusicTo(0.12, 350);
+    }
+
+    restoreAfterLetter() {
+      if (!this.audio || !this.enabled) return;
+      this.fadeMusicTo(this.audioTargetVolume, 700);
+      if (this.audio.paused) this.audio.play().catch(() => {});
+    }
+
     fadeMusicTo(target, duration, onDone) {
       if (!this.audio) return;
       window.clearInterval(this.audioFadeTimer);
@@ -1268,15 +1279,15 @@
      ------------------------------------------------------- */
   let bgmWasPlayingBeforeLetter = false;
 
-  window.addEventListener("lettervoice-bgm-pause", () => {
+  window.addEventListener("lettervoice-bgm-duck", () => {
     bgmWasPlayingBeforeLetter = Boolean(sound.enabled && sound.audio && !sound.audio.paused);
-    if (sound.enabled) sound.disable();
+    if (bgmWasPlayingBeforeLetter) sound.duckForLetter();
   });
 
-  window.addEventListener("lettervoice-bgm-resume", () => {
+  window.addEventListener("lettervoice-bgm-restore", () => {
     if (!bgmWasPlayingBeforeLetter) return;
     bgmWasPlayingBeforeLetter = false;
-    sound.enable().catch(() => {});
+    sound.restoreAfterLetter();
   });
 
   window.addEventListener("pagehide", () => {
