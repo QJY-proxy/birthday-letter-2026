@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#fff8ef">
-  <link rel="manifest" href="manifest.webmanifest?v=5">
+  <link rel="manifest" href="manifest.webmanifest?v=6">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1588,7 +1588,7 @@
             <div class="letter-voice-time"><span id="letterVoiceCurrent">0:00</span><span id="letterVoiceDuration">0:00</span></div>
           </div>
         </div>
-        <audio id="letterVoice" src="assets/audio/letter-voice.m4a?v=1" preload="metadata" playsinline></audio>
+        <audio id="letterVoice" src="assets/audio/letter-voice-v2.m4a" preload="metadata" playsinline></audio>
       </div>
       <div class="letter-body">
         <p class="letter-salutation">亲爱的小刘：</p>
@@ -1635,7 +1635,7 @@
     <span class="hug-heart-float hug-heart-float--three">♡</span>
   </div>
 
-  <script src="app.js?v=13"></script>
+  <script src="app.js?v=14"></script>
   <script>
     (() => {
       const gate = document.getElementById("passwordGate");
@@ -1725,7 +1725,7 @@
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("sw.js?v=5").catch(() => {});
+          navigator.serviceWorker.register("sw.js?v=6").catch(() => {});
         });
       }
     })();
@@ -1808,7 +1808,11 @@
         }
       });
 
-      openBtn.addEventListener("click", playVoice);
+      openBtn.addEventListener("click", () => {
+        const sheet = document.querySelector("#letterDialog .letter-sheet");
+        if (sheet) sheet.scrollTop = 0;
+        playVoice();
+      });
       if (audio.readyState >= 1 && Number.isFinite(audio.duration)) {
         seek.disabled = false;
         paint();

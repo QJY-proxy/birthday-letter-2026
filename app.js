@@ -292,7 +292,7 @@
       this.audioFadeTimer = null;
       this.audioPauseTimer = null;
       this.audioTargetVolume = 0.46;
-      this.audioSource = "assets/audio/xiangjianni-vocal.mp3";
+      this.audioSource = "assets/audio/bgm-xiangjianni-v2.mp3";
       this.fallbackAudioSource = "assets/audio/xiangjianni-piano.mp3";
       this.usingFallbackAudio = false;
       this.audioErrorShown = false;
@@ -445,7 +445,7 @@
 
     duckForLetter() {
       if (!this.audio || !this.enabled) return;
-      this.fadeMusicTo(0.12, 350);
+      this.fadeMusicTo(0.2, 350);
     }
 
     restoreAfterLetter() {
@@ -1305,14 +1305,6 @@
     sound.stopMusicImmediately();
   });
 
-  document.addEventListener("visibilitychange", () => {
-    if (!sound.ctx || !sound.enabled) return;
-    if (document.hidden) {
-      sound.pauseForBackground();
-      sound.ctx.suspend().catch(() => {});
-    } else {
-      sound.ctx.resume().catch(() => {});
-      sound.resumeFromBackground();
-    }
-  });
+  // Do not pause the BGM when the tab loses focus or an in-page dialog
+  // opens. The letter voice only ducks it, then restores it on close.
 })();

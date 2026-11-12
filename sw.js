@@ -1,17 +1,17 @@
-const CACHE = "xiaoliu-birthday-v15";
+const CACHE = "xiaoliu-birthday-v16";
 const CORE = [
-  "./?v=15",
+  "./?v=16",
   "./styles.css?v=10",
-  "./app.js?v=13",
-  "./manifest.webmanifest?v=5",
+  "./app.js?v=14",
+  "./manifest.webmanifest?v=6",
   "./assets/icons/icon-192.png?v=1",
   "./assets/icons/icon-512.png?v=1",
   "./assets/icons/icon-maskable-512.png?v=1",
   "./assets/icons/apple-touch-icon.png?v=1",
   "./assets/fonts/baloo-2.woff2",
   "./assets/fonts/zcool-kuaile.woff2",
-  "./assets/audio/letter-voice.m4a?v=1",
-  "./assets/audio/xiangjianni-vocal.mp3",
+  "./assets/audio/letter-voice-v2.m4a",
+  "./assets/audio/bgm-xiangjianni-v2.mp3",
 ];
 
 self.addEventListener("install", (event) => {
@@ -57,7 +57,7 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(async () => {
           return (
-            (await caches.match("./?v=15")) ||
+            (await caches.match("./?v=16")) ||
             (await caches.match(request)) ||
             new Response("这个页面需要联网加载一次。", { headers: { "Content-Type": "text/plain;charset=utf-8" } })
           );
