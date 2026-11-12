@@ -948,6 +948,7 @@
   const memoryDialogTitle = $("#memoryDialogTitle");
   const memoryDialogChapter = $("#memoryDialogChapter");
   const memoryDialogText = $("#memoryDialogText");
+  let memoryDialogLoadToken = 0;
 
   function openDialog(dialog) {
     if (!dialog || dialog.open) return;
@@ -998,21 +999,47 @@
       if (memoryDialogChapter) memoryDialogChapter.textContent = chapter;
       if (memoryDialogText) memoryDialogText.textContent = caption;
       if (memoryDialogImg) {
+        const sourceImg = photoButton.querySelector("img");
+        const thumbSrc = sourceImg ? sourceImg.currentSrc || sourceImg.src : "";
+        const token = ++memoryDialogLoadToken;
         memoryDialogImg.classList.add("is-missing");
         if (memoryDialogFallback) memoryDialogFallback.hidden = false;
-        memoryDialogImg.alt = photoButton.querySelector("img")?.alt || title;
+        memoryDialogImg.alt = sourceImg?.alt || title;
         memoryDialogImg.onload = () => {
+          if (token !== memoryDialogLoadToken) return;
           memoryDialogImg.classList.remove("is-missing");
           if (memoryDialogFallback) memoryDialogFallback.hidden = true;
         };
         memoryDialogImg.onerror = () => {
+          if (token !== memoryDialogLoadToken) return;
           memoryDialogImg.classList.add("is-missing");
           if (memoryDialogFallback) memoryDialogFallback.hidden = false;
         };
-        if (src) memoryDialogImg.src = src;
-        else {
+
+        if (thumbSrc) {
+          memoryDialogImg.src = thumbSrc;
+          if (sourceImg && sourceImg.complete && sourceImg.naturalWidth) {
+            memoryDialogImg.classList.remove("is-missing");
+            if (memoryDialogFallback) memoryDialogFallback.hidden = true;
+          }
+        } else if (src) {
+          memoryDialogImg.src = src;
+        } else {
           memoryDialogImg.removeAttribute("src");
           if (memoryDialogFallback) memoryDialogFallback.hidden = false;
+        }
+
+        // The card thumbnail shows instantly; upgrade to the full-resolution
+        // photo quietly once it is ready, without hiding the dialog again.
+        if (src && src !== thumbSrc) {
+          const fullImage = new Image();
+          fullImage.onload = () => {
+            if (token !== memoryDialogLoadToken) return;
+            memoryDialogImg.src = src;
+            memoryDialogImg.classList.remove("is-missing");
+            if (memoryDialogFallback) memoryDialogFallback.hidden = true;
+          };
+          fullImage.src = src;
         }
       }
       memoryDialog.scrollTop = 0;
